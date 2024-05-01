@@ -1,0 +1,3 @@
+[submodule "lib/tinyjson"]
+	path = lib/tinyjson
+	url = https://github.com/mcoltmanns/tinyjson.git

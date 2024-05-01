@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "tinyjson.h": "c",
+        "schema_manager.h": "c",
+        "fetch.h": "c"
+    }
+}

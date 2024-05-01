@@ -1,0 +1,36 @@
+Version 2!
+
+Backup schema structure
+    backup schemas should be local to folders. running the command without any args should look for a schema file in the current directory, and then backup according to it.
+    paths in the schemas should be defined relative to the schema, not system-wide. idea being that you could conserve the structure of backups across things like git repos, instead of having to redefine for every system.
+
+Backing up (fetching)
+    simple: iterate over every entry in the schema file, and request each one.
+    need to figure out a way to get time last written in the json request, and only back those up where (time last modified - time last backed up) is positive
+        time last modified should be field ModifiedClient
+
+Adding and removing files from the schema (-a/-r)
+    adding files: should provide the absolute path on remarkable, as well as the path to the directory you want, relative to where you are (probably a good idea to ask if it's ok to create new directories).
+    removing files: should provide the path relative to where you are.
+    whenever either of these actions occurs, recurse upwards in the file tree until you find a schema file to modify. remember that all paths written in the schema must be relative to the schema.
+    files are added as pdfs by default
+
+schema structure will be a json file containing:
+a root object
+    in this root object, a set of objects identified by local filepaths relative to the schema (file objects)
+        in each file object:
+            ID
+            ModifiedClient (last time edited on remarkable - will need to be updated at each sync)
+            Parent
+            Type
+            VissibleName
+what operations can there be on schemas?
+    load a schema into memory as a jvalue
+    write a loaded schema to disk
+    add an entry to a loaded schema
+    remove an entry from a loaded schema (identify with local path)
+    update the backup time of an entry in a loaded schema (identify with local path)
+
+Program options:
+    verbose output
+    force (download everything, regardless of age)

@@ -137,8 +137,15 @@ int main(int argc, char* argv[])
 				return BAD_SCHEMA;
 			}
 			fetch_all(schema);
-			fclose(schema_file);
+			char* schema_string = jval_to_str(schema); // have to write schema again because of potentially changed backup times
+			if(schema_string)
+			{
+				fseek(schema_file, 0, SEEK_SET); // go to beginning of file
+				if(fputs(schema_string, schema_file) == EOF) printf("bad write! status %i\n", errno);
+				free(schema_string);
+			}
 			json_free_value(schema);
+			fclose(schema_file);
 			free(path);
 			return OK;
 		}
